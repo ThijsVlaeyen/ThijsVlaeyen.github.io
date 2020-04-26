@@ -28,8 +28,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 main {
-    margin-left: 5rem;
-    padding: 1rem;
+    margin: 2rem 5rem 3rem 8rem;
+    padding: 2rem;
 }
 
 .navbar {

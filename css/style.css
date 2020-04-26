@@ -1,0 +1,34 @@
+body {
+    background-color: #e8e8e8;
+}
+
+header {
+    color: white;
+    background-color: #30303a;
+    padding: 0.5rem 1rem 0.5rem 3rem;
+}
+
+article{
+    padding-top: 2rem;
+    display: grid;
+    row-gap: 2rem;
+}
+
+#project-grid {
+    grid-template-columns: auto auto auto;
+    column-gap: 2rem;
+}
+
+div{
+    padding: 2rem;
+    background-color: white;
+    border: 1px solid black;
+}
+
+img{
+    padding-left: 2rem;
+    padding-right: auto;
+    padding-top: 1rem;
+    width: 75%;
+    height: auto;
+}
