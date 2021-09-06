@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.ClassID.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.Declaration.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.Element.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.comment.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.default.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.error.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.keyword.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.number.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.punctuation.bgColor=
+org.eclipse.e4.CSS.syntaxColorer.tokenStyles.string.bgColor=
