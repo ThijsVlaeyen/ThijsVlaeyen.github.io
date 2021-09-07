@@ -1,4 +1,6 @@
 var cachedLocations = [];
+var pos;
+navigator.geolocation.getCurrentPosition(setPosition);
 
 window.onload = () => {
   'use strict';
@@ -30,9 +32,10 @@ function isReachable(url) {
 }
 
 function getLocation() {
+  navigator.geolocation.getCurrentPosition(setPosition);
   var foo = handleConnection();
   if (foo == false) {
-    offline()
+    pushLocation()
   } else {
     foo.then(function(online) {
       if(navigator.geolocation) {
@@ -42,9 +45,9 @@ function getLocation() {
               showBatch(cachedLocations.pop());
             }
           }
-          navigator.geolocation.getCurrentPosition(showPosition);
+          showPosition();
         } else {
-          offline()
+          pushLocation()
         }
       } else {
         console.log("Geo Location not supported by browser");
@@ -53,16 +56,21 @@ function getLocation() {
   }
 }
 
-function offline() {
-  console.log("locatie naar cache schrijven...");
-  navigator.geolocation.getCurrentPosition(pushLocation);
+function setPosition(position) {
+  console.log("setting pos")
+  pos = {
+    longitude: position.coords.longitude,
+    latitude: position.coords.latitude
+  }
 }
 
-function pushLocation(position) {
+function pushLocation() {
+  console.log("locatie naar cache schrijven...");
   var d = new Date();
   cachedLocations.push({
-    position: position, 
-    time: d.toLocaleTimeString()})
+    position: pos, 
+    time: d.toLocaleTimeString()});
+  console.log({position: pos, time: d.toLocaleTimeString()})
 }
 
 function showBatch(item) {
@@ -79,14 +87,10 @@ function showBatch(item) {
   });
 }
 
-function showPosition(position) {
-  var location = {
-    longitude: position.coords.longitude,
-    latitude: position.coords.latitude
-  }
+function showPosition() {
   const notifTitle = "Belangrijke mededeling"
   var d = new Date();
-  const notifBody = "Locatie is gedeeld om " + d.toLocaleTimeString() + "\n\n" + location.longitude + "\n" + location.latitude;
+  const notifBody = "Locatie is gedeeld om " + d.toLocaleTimeString() + "\n\n" + pos.longitude + "\n" + pos.latitude;
   const options = {
     body: notifBody,
     icon: `favicon.ico`,
@@ -95,13 +99,13 @@ function showPosition(position) {
   navigator.serviceWorker.getRegistration().then(function(reg) {
     reg.showNotification(notifTitle, options);
   });
-  console.log({position: location, time: d.toLocaleTimeString()})
+  console.log({position: pos, time: d.toLocaleTimeString()})
 }
 
 let interval;
 function shareLocation() {
   Notification.requestPermission()
-  interval = window.setInterval(getLocation, 5000, 5);
+  interval = window.setInterval(getLocation, 5000);
 }
 
   window.addEventListener('load', function() {
