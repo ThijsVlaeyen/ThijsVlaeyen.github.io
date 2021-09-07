@@ -1,3 +1,5 @@
+
+
 window.onload = () => {
   'use strict';
 
@@ -7,12 +9,38 @@ window.onload = () => {
   }
 }
 
-function getLocation() {
-  if(navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+function handleConnection() {
+  if (navigator.onLine) {
+    return isReachable("").then(function(online) {
+      return online;
+    });
   } else {
-    console.log("Geo Location not supported by browser");
+    return false;
   }
+}
+
+function isReachable(url) {
+  return fetch(url, { method: 'HEAD', mode: 'no-cors' })
+    .then(function(resp) {
+      return resp && (resp.ok || resp.type === 'opaque');
+    })
+    .catch(function(err) {
+      console.warn('[conn test failure]:', err);
+    });
+}
+
+function getLocation() {
+  handleConnection().then(function(online) {
+    if (online) {
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        console.log("Geo Location not supported by browser");
+      }
+    } else {
+      console.log("locatie naar cache schrijven...")
+    }
+  });
 }
 //function that retrieves the position
 function showPosition(position) {
