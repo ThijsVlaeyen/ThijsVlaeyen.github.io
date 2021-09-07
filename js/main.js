@@ -21,7 +21,7 @@ function handleConnection() {
   }
 }
 
-function isReachable(url) {
+async function isReachable(url) {
   return fetch(url, { method: 'HEAD', mode: 'no-cors' })
     .then(function(resp) {
       return resp && (resp.ok || resp.type === 'opaque');
@@ -54,14 +54,12 @@ function getLocation() {
 }
 
 function updatePosition() {
-  navigator.geolocation.getCurrentPosition(setPosition);
-}
-
-function setPosition(position) {
-  pos = {
-    longitude: position.coords.longitude,
-    latitude: position.coords.latitude
-  }
+  navigator.geolocation.getCurrentPosition(function(position) {
+    pos = {
+      longitude: position.coords.longitude,
+      latitude: position.coords.latitude
+    }
+  });
 }
 
 function pushLocation() {
