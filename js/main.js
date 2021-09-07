@@ -40,11 +40,7 @@ function getLocation() {
       if(navigator.geolocation) {
         if (online) {
           if (cachedLocations.length > 0) {
-            let len = cachedLocations.length;
-            console.log("length cache" + len);
-            for (let i = 0; i < len; i++) {
-              showBatch(cachedLocations.shift());
-            }
+            showBatch();
           }
           showPosition();
         } else {
@@ -74,10 +70,14 @@ function pushLocation() {
   console.log({position: pos, time: d.toLocaleTimeString()})
 }
 
-function showBatch(item) {
-  console.log(item)
+function showBatch() {
+  let len = cachedLocations.length;
+  let notifBody = "Sending batch:\n";
+  for (let i = 0; i < len; i++) {
+    let item = cachedLocations.shift();
+    notifBody += "- " + item.time + "\nLon: " + item.position.longitude + "Lat: " + item.position.latitude + "\n\n";
+  }
   const notifTitle = "Belangrijke batch"
-  const notifBody = "Locatie is gedeeld om " + item.time + "\n\n" + item.position.longitude + "\n" + item.position.latitude;
   const options = {
     body: notifBody,
     icon: `favicon.ico`,
