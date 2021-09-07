@@ -1,6 +1,5 @@
 var cachedLocations = [];
 var pos;
-navigator.geolocation.getCurrentPosition(setPosition);
 
 window.onload = () => {
   'use strict';
@@ -41,7 +40,9 @@ function getLocation() {
       if(navigator.geolocation) {
         if (online) {
           if (cachedLocations.length > 0) {
-            for (let i = 0; i < cachedLocations.length + 1; i++) {
+            let len = cachedLocations.length;
+            console.log("length cache" + len);
+            for (let i = 0; i < len; i++) {
               showBatch(cachedLocations.shift());
             }
           }
