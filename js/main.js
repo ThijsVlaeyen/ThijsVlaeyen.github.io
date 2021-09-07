@@ -1,6 +1,6 @@
 var cachedLocations = [];
 var pos;
-navigator.geolocation.getCurrentPosition(setPosition);
+updatePosition();
 
 window.onload = () => {
   'use strict';
