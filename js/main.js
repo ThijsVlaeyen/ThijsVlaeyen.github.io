@@ -9,6 +9,16 @@ window.onload = () => {
   }
 }
 
+function handleConnection() {
+  if (navigator.onLine) {
+    return isReachable("").then(function(online) {
+      return online;
+    });
+  } else {
+    return false;
+  }
+}
+
 function isReachable(url) {
   return fetch(url, { method: 'HEAD', mode: 'no-cors' })
     .then(function(resp) {
@@ -20,28 +30,27 @@ function isReachable(url) {
 }
 
 function getLocation() {
-    isReachable("").then(function(online) {
-      console.log("test")
-    if(navigator.geolocation) {
-      console.log("bbbb")
-      if (online) {
-        console.log(cachedLocations)
-        if (cachedLocations.length > 0) {
-          for (let i = 0; i < cachedLocations.length + 1; i++) {
-            console.log("trying to do batch")
-            showBatch(cachedLocations.pop());
+  var foo = handleConnection();
+  if (foo == false) {
+    offline()
+  } else {
+    foo.then(function(online) {
+      if(navigator.geolocation) {
+        if (online) {
+          if (cachedLocations.length > 0) {
+            for (let i = 0; i < cachedLocations.length + 1; i++) {
+              showBatch(cachedLocations.pop());
+            }
           }
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          offline()
         }
-        console.log(navigator.geolocation)
-        navigator.geolocation.getCurrentPosition(showPosition);
       } else {
-        offline();
+        console.log("Geo Location not supported by browser");
       }
-    } else {
-      console.log("Geo Location not supported by browser");
-    }
-  });
-
+    });
+  }
 }
 
 function offline() {
@@ -53,8 +62,7 @@ function pushLocation(position) {
   var d = new Date();
   cachedLocations.push({
     position: position, 
-    time: d.toLocaleTimeString()});
-  console.log(cachedLocations)
+    time: d.toLocaleTimeString()})
 }
 
 function showBatch(item) {
