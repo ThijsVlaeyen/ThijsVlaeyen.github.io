@@ -1,5 +1,6 @@
 var cachedLocations = [];
 var pos;
+navigator.geolocation.getCurrentPosition(setPosition);
 
 window.onload = () => {
   'use strict';
@@ -31,7 +32,6 @@ function isReachable(url) {
 }
 
 function getLocation() {
-  navigator.geolocation.getCurrentPosition(setPosition);
   var foo = handleConnection();
   if (foo == false) {
     pushLocation()
@@ -53,8 +53,11 @@ function getLocation() {
   }
 }
 
+function updatePosition() {
+  navigator.geolocation.getCurrentPosition(setPosition);
+}
+
 function setPosition(position) {
-  console.log("setting pos")
   pos = {
     longitude: position.coords.longitude,
     latitude: position.coords.latitude
@@ -73,6 +76,7 @@ function pushLocation() {
 function showBatch() {
   let len = cachedLocations.length;
   let notifBody = "Sending batch:\n";
+  console.log(cachedLocations);
   for (let i = 0; i < len; i++) {
     let item = cachedLocations.shift();
     notifBody += "- " + item.time + "\nLon: " + item.position.longitude + "Lat: " + item.position.latitude + "\n\n";
@@ -106,7 +110,9 @@ function showPosition() {
 let interval;
 function shareLocation() {
   Notification.requestPermission()
-  interval = window.setInterval(getLocation, 5000);
+  getLocation();
+  window.setInterval(updatePosition, 5000)
+  window.setInterval(getLocation, 10000);
 }
 
   window.addEventListener('load', function() {
