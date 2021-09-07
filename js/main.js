@@ -9,16 +9,6 @@ window.onload = () => {
   }
 }
 
-function handleConnection() {
-  if (navigator.onLine) {
-    return isReachable("").then(function(online) {
-      return online;
-    });
-  } else {
-    return false;
-  }
-}
-
 function isReachable(url) {
   return fetch(url, { method: 'HEAD', mode: 'no-cors' })
     .then(function(resp) {
@@ -30,7 +20,7 @@ function isReachable(url) {
 }
 
 function getLocation() {
-  handleConnection().then(function(online) {
+  isReachable("").then(function(online) {
     if(navigator.geolocation) {
       if (online) {
         if (cachedLocations.length > 0) {
