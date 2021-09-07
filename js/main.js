@@ -21,7 +21,8 @@ function showPosition(position) {
     latitude: position.coords.latitude
   }
   const notifTitle = "Belangrijke mededeling"
-  const notifBody = "Locatie is gedeeld:" + location.longitude + "\n" + location.latitude;
+  var d = new Date();
+  const notifBody = "Locatie is gedeeld om " + d.toLocaleTimeString() + "\n\n" + location.longitude + "\n" + location.latitude;
   const options = {
     body: notifBody,
     icon: `favicon.ico`,
