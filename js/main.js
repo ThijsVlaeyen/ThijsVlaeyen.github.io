@@ -42,7 +42,7 @@ function getLocation() {
         if (online) {
           if (cachedLocations.length > 0) {
             for (let i = 0; i < cachedLocations.length + 1; i++) {
-              showBatch(cachedLocations.pop());
+              showBatch(cachedLocations.shift());
             }
           }
           showPosition();
