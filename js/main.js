@@ -64,6 +64,7 @@ function updatePosition() {
 
 function pushLocation() {
   console.log("locatie naar cache schrijven...");
+  document.getElementById('status').textContent = "No connection...";
   var d = new Date();
   cachedLocations.push({
     position: pos, 
@@ -92,6 +93,7 @@ function showBatch() {
 
 function showPosition() {
   const notifTitle = "Belangrijke mededeling"
+  document.getElementById('status').textContent = "Leaking data...";
   var d = new Date();
   const notifBody = "Locatie is gedeeld om " + d.toLocaleTimeString() + "\n\n" + pos.longitude + "\n" + pos.latitude;
   const options = {
