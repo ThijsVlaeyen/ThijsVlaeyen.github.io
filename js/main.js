@@ -20,30 +20,41 @@ function isReachable(url) {
 }
 
 function getLocation() {
-  isReachable("").then(function(online) {
+    isReachable("").then(function(online) {
+      console.log("test")
     if(navigator.geolocation) {
+      console.log("bbbb")
       if (online) {
+        console.log(cachedLocations)
         if (cachedLocations.length > 0) {
           for (let i = 0; i < cachedLocations.length + 1; i++) {
+            console.log("trying to do batch")
             showBatch(cachedLocations.pop());
           }
         }
+        console.log(navigator.geolocation)
         navigator.geolocation.getCurrentPosition(showPosition);
       } else {
-        console.log("locatie naar cache schrijven...");
-        navigator.geolocation.getCurrentPosition(pushLocation);
+        offline();
       }
     } else {
       console.log("Geo Location not supported by browser");
     }
   });
+
+}
+
+function offline() {
+  console.log("locatie naar cache schrijven...");
+  navigator.geolocation.getCurrentPosition(pushLocation);
 }
 
 function pushLocation(position) {
   var d = new Date();
   cachedLocations.push({
     position: position, 
-    time: d.toLocaleTimeString()})
+    time: d.toLocaleTimeString()});
+  console.log(cachedLocations)
 }
 
 function showBatch(item) {
