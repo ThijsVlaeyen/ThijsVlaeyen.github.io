@@ -1,4 +1,4 @@
-
+var cachedLocations = [];
 
 window.onload = () => {
   'use strict';
@@ -31,18 +31,45 @@ function isReachable(url) {
 
 function getLocation() {
   handleConnection().then(function(online) {
-    if (online) {
-      if(navigator.geolocation) {
+    if(navigator.geolocation) {
+      if (online) {
+        if (cachedLocations.length > 0) {
+          for (let i = 0; i < cachedLocations.length + 1; i++) {
+            showBatch(cachedLocations.pop());
+          }
+        }
         navigator.geolocation.getCurrentPosition(showPosition);
       } else {
-        console.log("Geo Location not supported by browser");
+        console.log("locatie naar cache schrijven...");
+        navigator.geolocation.getCurrentPosition(pushLocation);
       }
     } else {
-      console.log("locatie naar cache schrijven...")
+      console.log("Geo Location not supported by browser");
     }
   });
 }
-//function that retrieves the position
+
+function pushLocation(position) {
+  var d = new Date();
+  cachedLocations.push({
+    position: position, 
+    time: d.toLocaleTimeString()})
+}
+
+function showBatch(item) {
+  console.log(item)
+  const notifTitle = "Belangrijke batch"
+  const notifBody = "Locatie is gedeeld om " + item.time + "\n\n" + item.position.longitude + "\n" + item.position.latitude;
+  const options = {
+    body: notifBody,
+    icon: `favicon.ico`,
+    vibrate: [100, 100, 100]
+  }
+  navigator.serviceWorker.getRegistration().then(function(reg) {
+    reg.showNotification(notifTitle, options);
+  });
+}
+
 function showPosition(position) {
   var location = {
     longitude: position.coords.longitude,
@@ -54,18 +81,18 @@ function showPosition(position) {
   const options = {
     body: notifBody,
     icon: `favicon.ico`,
-    vibrate: [100]
+    vibrate: [100, 100, 100]
   }
   navigator.serviceWorker.getRegistration().then(function(reg) {
     reg.showNotification(notifTitle, options);
   });
-  console.log(location)
+  console.log({position: location, time: d.toLocaleTimeString()})
 }
 
 let interval;
 function shareLocation() {
   Notification.requestPermission()
-  interval = window.setInterval(getLocation, 5000, 15);
+  interval = window.setInterval(getLocation, 5000, 5);
 }
 
   window.addEventListener('load', function() {
