@@ -1,4 +1,4 @@
-var times = ["23:30", "15:56", "00:00"];
+var times = ["14:56", "15:05", "00:00", "00:00", "00:00", "15:06", "14:38", "15:11", "15:47", "00:00"];
 function fn60sec() {
     var tottime = times.length;
     var totsmall = 0;
