@@ -1,14 +1,13 @@
 var times = ["14:56", "15:05", "00:00", "00:00", "00:00", "15:06", "14:38", "15:11", "15:47", "00:00", "00:00", "00:00", "00:00"];
 function fn60sec() {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=Waanrode&appid=4d8fb5b93d4af21d66a2948710284366&units=metric`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=Waanrode&appid=4d8fb5b93d4af21d66a2948710284366&units=metric&lang=nl`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const { main, name, sys, weather } = data;
+            const { main, name, sys, weather, clouds } = data;
             const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${
                 weather[0]["icon"]
               }.svg`;
-
             const markup = `
               <h2 class="city-name" data-name="${name},${sys.country}">
                 <span>${name}</span>
@@ -24,7 +23,7 @@ function fn60sec() {
             `;
 
             $('#weather').html(markup);
-            if(weather[0]['main'] == 'Clouds') {
+            if(clouds['all'] > 80) {
                 $('#percent').text("0.1%");
             } else {
                 var tottime = times.length;
