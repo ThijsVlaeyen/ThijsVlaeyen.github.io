@@ -24,10 +24,7 @@ function fn60sec() {
 
             $('#weather').html(markup);
             console.log(clouds['all'])
-            if(clouds['all'] > 95) {
-                $('#percent').text("0.1%");
-            } else {
-                var tottime = times.length;
+            var tottime = times.length;
                 var totsmall = 0;
                 for (var i = 0; i < tottime; i++) {
                     var time = times[i].split(":");
@@ -47,7 +44,6 @@ function fn60sec() {
                 var round = totsmall/tottime*100
                 var out = 100 - Math.round(round);
                 $('#percent').text(out + "%");
-            }
         })
         .catch((e) => {
         console.log(e)
