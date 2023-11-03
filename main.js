@@ -23,6 +23,7 @@ function fn60sec() {
             `;
 
             $('#weather').html(markup);
+            console.log(clouds['all'])
             if(clouds['all'] > 95) {
                 $('#percent').text("0.1%");
             } else {
